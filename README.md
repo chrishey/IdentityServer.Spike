@@ -5,4 +5,5 @@ Following the instructions here - [http://identityserver.github.io/Documentation
 * Export the certificate and install it in your local computer -> Trusted People
 * Set up an IIS site to use SSL and pick the create certificate, use the port that identity server is running on
 * Add an entry to your host file for the machine name that IIS is using
+* Amend your web applciation project properties to use Local IIS (not express though) https://*machine name*:*identity server port*/
 * Navigate to the site https://*machine name*:*identity server port*/identity

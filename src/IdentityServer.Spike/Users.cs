@@ -20,7 +20,9 @@ namespace IdentityServer.Spike
                 Claims = new[]
                 {
                     new Claim(Constants.ClaimTypes.GivenName, "Bob"),
-                    new Claim(Constants.ClaimTypes.FamilyName, "Smith")
+                    new Claim(Constants.ClaimTypes.FamilyName, "Smith"),
+					new Claim(Constants.ClaimTypes.Role, "Daman"),
+ 					new Claim(Constants.ClaimTypes.Role, "Geezer") 
                 }
             }
         };
