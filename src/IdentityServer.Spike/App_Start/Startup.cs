@@ -33,9 +33,9 @@ namespace IdentityServer.Spike
 
 			app.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
 			{
-				Authority = "https://localhost:44300/identity",
+				Authority = "https://GBBLL3658.drl.local:44300/identity",
 				ClientId = "mvc",
-				RedirectUri = "https://localhost:44300/",
+				RedirectUri = "https://GBBLL3658.drl.local:44300/",
 				ResponseType = "id_token",
 
 				SignInAsAuthenticationType = "Cookies"
@@ -45,7 +45,7 @@ namespace IdentityServer.Spike
 		X509Certificate2 LoadCertificate()
 		{
 			return new X509Certificate2(
-				string.Format(@"{0}\bin\idsrv3test.pfx", AppDomain.CurrentDomain.BaseDirectory), "idsrv3test");
+				string.Format(@"{0}\bin\localhost.pfx", AppDomain.CurrentDomain.BaseDirectory), "idsrv3test");
 		}
 	}
 }

@@ -18,7 +18,7 @@ namespace IdentityServer.Spike
 
                 RedirectUris = new List<string>
                 {
-                    "https://localhost:44319/"
+                    "https://GBBLL3658.drl.local:44300/"
                 }
             }
         };
