@@ -28,5 +28,13 @@ namespace IdentityServer.Spike.Controllers
 		    return View();
 	    }
 
+		[ResourceAuthorize("Write", "ContactDetails")]
+		[HandleForbidden]
+	    public ActionResult UpdateContact()
+		{
+			ViewBag.Message = "Update your contact details";
+
+			return View();
+		}
     }
 }

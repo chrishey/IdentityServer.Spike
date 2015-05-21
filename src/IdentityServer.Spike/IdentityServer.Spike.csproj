@@ -213,6 +213,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Views\Home\Contact.cshtml" />
+    <None Include="Views\Home\UpdateContact.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
