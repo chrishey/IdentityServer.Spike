@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.OpenIdConnect;
 using Owin;
 using Thinktecture.IdentityServer.Core.Configuration;
 using Thinktecture.IdentityServer.Core.Models;
@@ -22,6 +24,21 @@ namespace IdentityServer.Spike
 						clients: Clients.Get(),
 						scopes: StandardScopes.All)
 				});
+			});
+
+			app.UseCookieAuthentication(new CookieAuthenticationOptions
+			{
+				AuthenticationType = "Cookies"
+			});
+
+			app.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
+			{
+				Authority = "https://localhost:44300/identity",
+				ClientId = "mvc",
+				RedirectUri = "https://localhost:44300/",
+				ResponseType = "id_token",
+
+				SignInAsAuthenticationType = "Cookies"
 			});
 		}
 
