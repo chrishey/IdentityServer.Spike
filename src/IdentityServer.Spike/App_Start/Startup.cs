@@ -37,6 +37,8 @@ namespace IdentityServer.Spike
 				AuthenticationType = "Cookies"
 			});
 
+			app.UseResourceAuthorization(new AuthorizationManager());
+
 			app.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
 			{
 				Authority = "https://GBBLL3658.drl.local:44300/identity",
