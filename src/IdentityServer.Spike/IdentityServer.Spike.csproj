@@ -215,7 +215,7 @@
     <None Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Forbidden.cshtml" />
     <None Include="Views\Home\UpdateContact.cshtml" />
-    <Content Include="Views\Shared\_ViewStart.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Master.cshtml" />
   </ItemGroup>
   <PropertyGroup>

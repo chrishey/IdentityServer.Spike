@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using System.Web;
 using System.Web.Mvc;
 using Thinktecture.IdentityModel.Mvc;
 
@@ -17,7 +18,7 @@ namespace IdentityServer.Spike.Controllers
 		[Authorize]
 	    public ActionResult About()
 	    {
-			return View((User as ClaimsPrincipal).Claims);
+			return View(((ClaimsPrincipal) User).Claims);
 	    }
 
 		[ResourceAuthorize("Read", "ContactDetails")]
@@ -36,5 +37,11 @@ namespace IdentityServer.Spike.Controllers
 
 			return View();
 		}
+
+	    public ActionResult Logout()
+	    {
+		    Request.GetOwinContext().Authentication.SignOut();
+		    return Redirect("/");
+	    }
     }
 }

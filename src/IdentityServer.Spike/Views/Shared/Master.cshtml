@@ -11,6 +11,10 @@
 	<li><a href="/Home/Contact">Contact</a></li>
 	<li><a href="/Home/UpdateContact">Update Contact</a></li>
 	<li><a href="/Home/About">About</a></li>
+	@if (HttpContext.Current.User.Identity.IsAuthenticated)
+	{
+		<li><a href="/Home/Logout">Log out</a></li>
+	}
 </ul>
 <div>
 	@RenderBody()
