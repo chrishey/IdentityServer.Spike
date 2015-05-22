@@ -143,9 +143,9 @@ namespace IdentityServer.Spike
 		}
 	}
 
-	public class ApplicationIdentityManagerService : AspNetIdentityManagerService<User, string, IdentityRole, string>
+	public class ApplicationIdentityManagerService : AspNetIdentityManagerService<User, string, Role, string>
 	{
-		public ApplicationIdentityManagerService(ApplicationUserManager userManager, RoleManager<IdentityRole, string> roleManager) : base(userManager, roleManager)
+		public ApplicationIdentityManagerService(ApplicationUserManager userManager, RoleManager<Role, string> roleManager) : base(userManager, roleManager)
 		{
 			
 		}
