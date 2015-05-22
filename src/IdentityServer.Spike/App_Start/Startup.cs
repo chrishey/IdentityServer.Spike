@@ -4,14 +4,19 @@ using System.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using System.Web.Helpers;
+using IdentityManager;
+using IdentityManager.AspNetIdentity;
+using IdentityManager.Configuration;
+using IdentityServer.Spike.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
 using Owin;
-using Thinktecture.IdentityServer.Core;
 using Thinktecture.IdentityServer.Core.Configuration;
-using Thinktecture.IdentityServer.Core.Models;
+using Constants = Thinktecture.IdentityServer.Core.Constants;
 
 namespace IdentityServer.Spike
 {
@@ -30,6 +35,24 @@ namespace IdentityServer.Spike
 						users: Users.Get(),
 						clients: Clients.Get(),
 						scopes: Scopes.Get())
+				});
+			});
+
+			app.Map("/identitymanager", idm =>
+			{
+				var factory = new IdentityManagerServiceFactory
+				{
+					IdentityManagerService =
+						new IdentityManager.Configuration.Registration<IIdentityManagerService, ApplicationIdentityManagerService>()
+				};
+				factory.Register(new IdentityManager.Configuration.Registration<ApplicationUserManager>());
+				factory.Register(new IdentityManager.Configuration.Registration<UserStore>());
+				factory.Register(new IdentityManager.Configuration.Registration<ApplicationRoleManager>());
+				factory.Register(new IdentityManager.Configuration.Registration<ApplicationRoleStore>());
+				factory.Register(new IdentityManager.Configuration.Registration<Context>(resolver=>new Context("identityDatabase")));
+				idm.UseIdentityManager(new IdentityManagerOptions
+				{
+					Factory = factory
 				});
 			});
 
@@ -103,4 +126,54 @@ namespace IdentityServer.Spike
 				string.Format(@"{0}\bin\localhost.pfx", AppDomain.CurrentDomain.BaseDirectory), "idsrv3test");
 		}
 	}
+
+	public class ApplicationRoleStore : RoleStore<Role>
+	{
+		public ApplicationRoleStore(Context context) : base(context)
+		{
+			
+		}
+	}
+
+	public class ApplicationRoleManager : RoleManager<Role>
+	{
+		public ApplicationRoleManager(ApplicationRoleStore roleStore) : base(roleStore)
+		{
+			
+		}
+	}
+
+	public class ApplicationIdentityManagerService : AspNetIdentityManagerService<User, string, IdentityRole, string>
+	{
+		public ApplicationIdentityManagerService(ApplicationUserManager userManager, RoleManager<IdentityRole, string> roleManager) : base(userManager, roleManager)
+		{
+			
+		}
+	}
+
+	public class ApplicationUserManager : UserManager<User, string>
+	{
+		public ApplicationUserManager(UserStore store):base(store)
+		{
+			
+		}
+	}
+
+	public class UserStore : UserStore<User, Role, string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>
+	{
+		public UserStore(Context ctx)
+			: base(ctx)
+		{
+		}
+	}
+
+	public class Context : IdentityDbContext<User, Role, string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>
+	{
+		public Context(string connString)
+			: base(connString)
+		{
+		}
+	}
+
+	public class Role : IdentityRole { }
 }
