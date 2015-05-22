@@ -19,7 +19,11 @@ namespace IdentityServer.Spike
                 RedirectUris = new List<string>
                 {
                     "https://GBBLL3658.drl.local:44300/"
-                }
+                },
+				PostLogoutRedirectUris = new List<string>
+				{
+					"https://GBBLL3658.drl.local:44300/"
+				}
             }
         };
 		}

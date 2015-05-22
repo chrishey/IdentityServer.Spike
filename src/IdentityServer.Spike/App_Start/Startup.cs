@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using System.Web.Helpers;
+using Microsoft.IdentityModel.Protocols;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
@@ -78,6 +79,16 @@ namespace IdentityServer.Spike
 						n.AuthenticationTicket = new AuthenticationTicket(
 							nid,
 							n.AuthenticationTicket.Properties);
+
+						nid.AddClaim(new Claim("id_token", n.ProtocolMessage.IdToken));
+					},
+					RedirectToIdentityProvider = async n =>
+					{
+						if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.LogoutRequest)
+						{
+							var idTokenHint = n.OwinContext.Authentication.User.FindFirst("id_token").Value;
+							n.ProtocolMessage.IdTokenHint = idTokenHint;
+						}
 					}
 				}
 			});
