@@ -242,6 +242,7 @@
   <ItemGroup>
     <None Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Forbidden.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
     <None Include="Views\Home\UpdateContact.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Master.cshtml" />

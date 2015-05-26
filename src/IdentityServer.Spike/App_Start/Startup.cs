@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
@@ -11,6 +12,7 @@ using IdentityServer.Spike.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.IdentityModel.Protocols;
+using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
@@ -24,6 +26,12 @@ namespace IdentityServer.Spike
 	{
 		public void Configuration(IAppBuilder app)
 		{
+			app.UseCookieAuthentication(new CookieAuthenticationOptions
+			{
+				AuthenticationType = ConfigurationManager.AppSettings["AuthType"],
+				LoginPath = new PathString("/Home/Login")
+			});
+
 			app.Map("/identity", idsrvApp =>
 			{
 				idsrvApp.UseIdentityServer(new IdentityServerOptions
@@ -52,13 +60,16 @@ namespace IdentityServer.Spike
 				factory.Register(new IdentityManager.Configuration.Registration<Context>(resolver=>new Context("identityDatabase")));
 				idm.UseIdentityManager(new IdentityManagerOptions
 				{
-					Factory = factory
+					Factory = factory,
+					SecurityConfiguration = (Convert.ToBoolean(ConfigurationManager.AppSettings["localAuth"])) ?
+					new LocalhostSecurityConfiguration() : new HostSecurityConfiguration
+					{
+						HostAuthenticationType = ConfigurationManager.AppSettings["AuthType"],
+						NameClaimType = "name",
+						RoleClaimType = "role",
+						AdminRoleName = "admin"
+					}
 				});
-			});
-
-			app.UseCookieAuthentication(new CookieAuthenticationOptions
-			{
-				AuthenticationType = "Cookies"
 			});
 
 			app.UseResourceAuthorization(new AuthorizationManager());

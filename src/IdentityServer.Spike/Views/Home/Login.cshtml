@@ -1,0 +1,14 @@
+﻿@model dynamic
+
+<h2>Login</h2>
+
+@using(Html.BeginForm())
+{
+<div>@Html.Label("username")</div>
+<div>@Html.TextBox("username")</div>
+
+<div>@Html.Label("password")</div>
+<div>@Html.TextBox("password")</div>
+
+<div><button>Login</button></div>
+}
