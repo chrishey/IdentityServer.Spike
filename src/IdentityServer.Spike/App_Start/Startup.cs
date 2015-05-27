@@ -34,15 +34,15 @@ namespace IdentityServer.Spike
 
 			app.Map("/identity", idsrvApp =>
 			{
+				var factory = Factory.Configure();
+				factory.ConfigureUserService("identityDatabase");
+
 				idsrvApp.UseIdentityServer(new IdentityServerOptions
 				{
 					SiteName = "Embedded IdentityServer",
 					SigningCertificate = LoadCertificate(),
 
-					Factory = InMemoryFactory.Create(
-						users: Users.Get(),
-						clients: Clients.Get(),
-						scopes: Scopes.Get())
+					Factory = factory
 				});
 			});
 

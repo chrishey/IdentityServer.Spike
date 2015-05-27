@@ -184,6 +184,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factory.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="AuthorizationManager.cs" />
     <Compile Include="Clients.cs" />
@@ -195,6 +196,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scopes.cs" />
     <Compile Include="Users.cs" />
+    <Compile Include="UserService.cs" />
+    <Compile Include="UserServiceExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
