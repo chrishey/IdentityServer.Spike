@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.IdentityModel.Tokens;
+using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using System.Web.Helpers;
@@ -91,21 +92,21 @@ namespace IdentityServer.Spike
 						var id = n.AuthenticationTicket.Identity;
 
 						// we want to keep first name, last name, subject and roles
-						var givenName = id.FindFirst(Constants.ClaimTypes.GivenName);
-						var familyName = id.FindFirst(Constants.ClaimTypes.FamilyName);
-						var sub = id.FindFirst(Constants.ClaimTypes.Subject);
+						var givenName = id.FindFirst(Constants.ClaimTypes.Name);
 						var roles = id.FindAll(Constants.ClaimTypes.Role);
 
 						// create new identity and set name and role claim type
 						var nid = new ClaimsIdentity(
 							id.AuthenticationType,
-							Constants.ClaimTypes.GivenName,
+							Constants.ClaimTypes.Name,
 							Constants.ClaimTypes.Role);
 
-						nid.AddClaim(givenName);
-						nid.AddClaim(familyName);
-						nid.AddClaim(sub);
-						nid.AddClaims(roles);
+						if(givenName != null)
+							nid.AddClaim(givenName);
+
+						var claims = roles as Claim[] ?? roles.ToArray();
+						if(claims.Any())
+							nid.AddClaims(claims);
 
 						// add some other app specific claim
 						nid.AddClaim(new Claim("app_specific", "some data"));
