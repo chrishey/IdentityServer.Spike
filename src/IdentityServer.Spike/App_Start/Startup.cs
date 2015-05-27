@@ -42,7 +42,6 @@ namespace IdentityServer.Spike
 				{
 					SiteName = "Embedded IdentityServer",
 					SigningCertificate = LoadCertificate(),
-
 					Factory = factory
 				});
 			});
